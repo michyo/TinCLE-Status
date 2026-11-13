@@ -1,0 +1,38 @@
+20261103-224100-HtXRsYE6qo-TinCLE0.17b8-InvestigationNotesOnTheSaveAPI(November-1-2026)
+=== TinCLE 0.17b8 保存APIに関する調査メモ（2026-11-01） ===
+対象: F:\tincle\tcl017b8\new_game\tincle、info.txt は Architecture: 32bit。
+Windows tincle.dll SHA-256: ebda1064eff26d92fde5dce055dac4e34128c1c5dac636999fe94ad840e2c504
+Web libs/tincle.a SHA-256: 0c831a7ddd4310dad7eecde3ab022ed7dda966ee39fab11556a58da89619a85d
+対象API: int tincle_save_data(const char *filename, void *data, size_t size)
+
+[Windows: fcloseの失敗が戻り値に反映されない可能性]
+確認方法: 上記32-bit DLLのtincle_save_dataを静的に逆アセンブルした。RVA 0x2ac7cの関数はfopen→fwrite→fcloseを呼び、fcloseの戻り値を評価せず、保存したfwriteの戻り値と要求バイト数を比較して1または0を返す。fcloseへの呼出はVA 0x1002ad06、続くVA 0x1002ad0eでfwriteの結果を再ロードして比較している。
+期待: 書込みバッファのflush/closeに失敗した場合、保存成功1を返さず失敗を通知する。
+実際: 静的解析上、fwriteが全バイト数を返した後にfcloseが失敗しても、fcloseの失敗を判断に使っていない。ディスクフル等による実際のfclose失敗は再現していないため、実機での発生頻度は未確認。
+最小の検証方針: 安全なテスト用ビルドまたはモックCRTでfwriteが全バイト成功しfcloseだけEOFを返すケースを注入し、tincle_save_dataの戻り値を確認する。利用者の実ディスクを満杯にする試験は行わない。
+影響: バッファの遅延書込みに失敗しても成功扱いとなり、ゲームが保存完了と誤認する可能性。
+今回の暫定対応: アプリ側で保存後に同じAPIで読み返し、全バイトとチェックサムを照合し、直前の正常世代を別枠に保持。これは読み返し時に確認できる不一致の検出であり、OSキャッシュから物理媒体への永続化や電源断耐性を保証しない。DLLそのものは変更していない。
+
+[Web: IndexedDB非同期同期の完了通知に関する仕様確認のお願い]
+観測: Emscripten出力のTinCLEコードは初回にFS.syncfs(true, callback)を実行し、そのcallback後にゲーム初期化を開始する。保存時はFS.syncfs(false, callback)を呼び、同期失敗をconsole.errorへ出す。一方、tincle_save_dataの戻り値1とIndexedDBの後続callback成功は同時ではない。
+資料の記載は「WebではIndexedDBに同期」「成功1、失敗0」だが、戻り値1がメモリ上の書込み受付なのか永続同期完了なのか、完了/失敗をゲームC側から確認する公開APIがあるのかは明示されていない。非同期であること自体を不具合と断定せず、通知仕様の明確化をお願いしたい。
+最小再現: Web版で保存直後のtincle_save_data戻り値を記録し、別途FS.syncfs(false)のcallback完了時刻とエラー有無を比較する。容量拒否など実際のブラウザ環境による失敗注入は未検証。
+影響: 戻り値1だけで「永続保存済み」と表示すると、同期中または同期失敗を成功と誤認するおそれがある。
+今回の暫定対応: ゲーム側で初回の同期完了と保存同期callbackを監視し、callback成功および読み返し照合まで保存済みと表示しない。保存中の更新は次の同期へ送り、失敗時はエラーと再試行待ちを表示する。
+
+注: ゲーム側に存在した世代番号・再試行枠・保存表示の問題はゲーム側で修正中であり、TinCLE本体の不具合とは区別する。このファイルはローカル記録であり、作者や外部サービスには送信していない。
+
+=== TinCLE 0.17b8 Web開発環境: 起動・一時ファイルに関する調査メモ（2026-11-03） ===
+対象は ■■■■■■■■■■ の街中心 UI の通常開発ビルドであり、TinCLE 本体の欠陥と断定しない。
+
+[emcass.exe の起動]
+2026-11-03 04:54 UTC 頃、F:\tincle\tcl017b8\new_game\tincle\emcass.exe の CreateProcess が Windows Error 623（システム DLL の無効な再配置）を返し、起動前に失敗。対象 SHA-256: 88977372ad977ae261f1727e1ce79e48f5374c268c6bfaa541cc201ca8c18f72。DLL の実名や衝突原因は取得できていない。index.html / index.js / index.wasm / index.data は生成されていない。
+2026-11-03 の旧 migration 版には同じ emcass と期待ハッシュを使った Web ビルド成功の記録がある。ラッパーの明示 SDK 設定は同じだが、以前の TEMP、実行トークン、DLL 配置、sandbox 状態の詳細は記録されておらず比較できない。今回のラッパーは新 UI の3ソースを追加しているが、エラーはコンパイル前のプロセス起動段階で発生した。
+
+[隔離入力 fixture のコンパイル]
+別の Emscripten emcc/clang は起動したが、sandbox 配下一時ディレクトリーの cityfirst_input_regression.o 作成に permission denied を返し、終了時の一時ディレクトリー掃除も WinError 5 となった。新 fixture は出力・実行されていない。自動承認審査の拒否表示はなく、観測されたのはプロセス内の OS アクセス拒否である。
+拒否された当時の一時ディレクトリーは後のセッションから見えず、その ACL・プロセストークン・ロック状態は取得できなかった。別セッションの TEMP は sandbox 配下で、低整合性トークンおよび読み取り可能な ACL を確認したが、これだけでは当時の拒否が ACL・sandbox 境界・他の制御のいずれによるか確定できない。
+
+[範囲と今後]
+Application / System イベントログの読み取りはそれぞれ UnauthorizedAccessException で拒否され、昇格や再取得は行っていない。SDK の差し替え、TEMP の付け替え、ACL/セキュリティ設定の変更、別のビルド経路による代替実行は行っていない。ユーザーまたは管理者が適法に参照できる既存ログで対象時刻のエラーと DLL 名・アクセス拒否対象を確認し、必要に応じ SDK/環境の提供元に相談する。原因を特定できるまで再実行の可否は未判断。
+以前ビルドされた保存コアの独立 MEMFS fixture は実行できたが、新 UI のコンパイル・実画面・PLiCy・IndexedDB の検証を示すものではない。記録はローカルのみで外部送信していない。
