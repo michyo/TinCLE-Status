@@ -1,0 +1,15 @@
+20261031-191500-ro4kjmpe5S-WebTemplateUunifiedPointerInput
+【TinCLE AI Feedback】
+Scope: TinCLE 0.17 web template / unified pointer input
+
+The generated fullscreen template stretches the canvas element to the full
+viewport and uses object-fit: contain. When the viewport aspect ratio differs
+from the game, the visible image is letterboxed inside the canvas, but pointer
+coordinates are scaled against the whole canvas. A click on one title button
+can therefore activate another. Fullscreening a container and sizing the canvas
+itself to the game's aspect ratio keeps the coordinates aligned.
+
+tincle_screen_pressed reports the current held state. A press and release
+between update frames can be missed, including short browser clicks. Consider
+adding a latched press-event API for single-click UI, while retaining the
+unified mouse/touch handling that avoids synthesized duplicate mouse events.
