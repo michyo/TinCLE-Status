@@ -1,0 +1,12 @@
+20261119-204800-B7vNdbjh7w-SDL2DCompositing-InitializingMainLoopWebVersion-MAIN_MODULE
+対象: TinCLE 0.18 の GLSL_HERO と SDL の2D合成処理。
+観測: GLSL_HERO の SDL_RendererInfo は software（flags=13）でした。同じPCで40台を含む2.5Dの5場面を簡易計測したところ、描画と SDL_RenderPresent の時間は 2D_NORMAL で約25〜34 ms/フレーム、GLSL_HERO で約32〜46 ms/フレームでした。最終的なFPSや他の環境では未測定です。
+提案: 文書化された透過・共有コンテキストの挙動を維持しつつ、GLSL_HERO でハードウェア描画の2D重ね合わせ、またはGPUテクスチャの受け渡しAPIを提供してください。
+
+対象: TinCLE 0.18 Web版のメインループ初期化。
+観測: 2D_NORMAL と GLSL_HERO の両方で、初回起動時に Emscripten の「emscripten_set_main_loop_timing: Cannot set timing mode for main loop since a main loop does not exist! Call emscripten_set_main_loop first to set one up.」がコンソールに表示されました。検証したブラウザではその後も動作しています。
+提案: タイミングの設定前に Emscripten のメインループを登録するか、登録が成功するまでタイミング変更を保留してください。
+
+対象: TinCLE 0.18 の emcass で `-sMAIN_MODULE=1` を指定する Web ビルド。
+観測: emcass が自動指定する `EXPORTED_FUNCTIONS` と `MAIN_MODULE=1` の組み合わせに対し、Emscripten が全関数をエクスポートする設定では `EXPORTED_FUNCTIONS` が無効だという警告を表示します。今回の Web ビルドは成功し、起動も確認できました。
+提案: `MAIN_MODULE=1` のときは自動の `EXPORTED_FUNCTIONS` 指定を省くか、この警告とエクスポート範囲を文書で説明してください。

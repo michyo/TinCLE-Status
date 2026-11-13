@@ -1,0 +1,21 @@
+20261110-221700-LUMG7rFdUl-Bug-Report-of-SDL2_gfx.dll-and-wipee
+
+
+A second isolated run with just that file reproduced the error: the ZIP entry declares method 8 (DEFLATE), but its compressed size equals the source size and its first bytes are identical to the uncompressed source. If the fallback writes raw bytes, mark that entry method 0 (STORED), or use streaming DEFLATE and fail on compression errors.
+
+
+Scope: tinclec 0.18, Windows / TinyCC.
+
+The bundled SDL2_gfx.dll also exports SDL_ functions. tinclec links SDL2.dll before SDL2_gfx.dll, and TinyCC can resolve the game's SDL_ imports to SDL2_gfx.dll instead of SDL2.dll. This can cause entry-point failures with an otherwise compatible SDL2_gfx runtime and can mix SDL implementations.
+
+Suggested fix: link SDL2.dll after SDL2_gfx.dll, or restrict SDL2_gfx.dll exports to the gfx API. Add an import-table check to the compiler assistant.
+
+Scope: wipee 0.18, standard ZIP mode.
+
+Packing a 574379022-byte game.data returned SUCCESS, but an independent ZIP integrity test reported a data error for that entry. The ZIP entry was marked DEFLATE although its payload began with the original uncompressed bytes and its compressed size equaled the source size.
+
+Small 1 MiB and 16 MiB random-file ZIP checks passed. Suggested fix: mark raw fallback data as STORED, or use streaming DEFLATE and return a nonzero exit code on compression failure; verify entries before reporting success.
+
+Scope: TinCLE 0.18 Windows SDL2_gfx.dll and an SDL2.dll-created renderer.
+
+An isolated 32-bit software-renderer check returned -1 from thickLineRGBA and filledCircleRGBA with zero pixels drawn, while SDL_RenderDrawLine on the same renderer succeeded. The previous dynamically linked SDL2_gfx DLL drew 405 and 121 pixels respectively, returning 0. The supplied 0.18 SDL2_gfx.dll exports its own SDL functions, suggesting a separate SDL renderer identity. Please link the gfx implementation against the same SDL2.dll as the application, and add a shared-renderer primitive test.

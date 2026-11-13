@@ -1,0 +1,26 @@
+20261108-094500-kt1JTZgu1a-TinCLE0.18-32-bitWindowsDistributionSDL2_gfx.dll
+Scope: TinCLE 0.18, 32-bit Windows distribution, SDL2_gfx.dll
+
+Observation:
+The SDL2_gfx.dll supplied with this TinCLE x86 distribution has a normal,
+load-time import of VCRUNTIME140.dll as well as Universal CRT API-set DLLs.
+The executable using SDL2_gfx.dll therefore needs a compatible x86 Visual C++
+runtime even when the executable itself does not directly import it.
+The same SDL2_gfx.dll was found in the TinCLE distribution and the game package.
+SHA-256: F8AD7995017D18DD24C241D25128862C20F39BE2622D8537EFEBA64971BE380A
+
+This was established by inspecting the PE import table. Failure to start on a
+clean Windows installation without the x86 runtime is a consequence of the
+load-time dependency, but was not tested on a clean machine.
+
+Suggestion:
+Please document this dependency in the Windows distribution guidance, including
+the fact that a 32-bit game needs the x86 redistributable on 64-bit Windows.
+Consider checking transitive DLL dependencies during release packaging, or
+providing an SDL2_gfx build that does not require a separate VCRUNTIME140.dll.
+Verify any replacement's imports and test it on a clean supported Windows
+installation. For app-local runtime files, document who maintains updates.
+
+Reference:
+https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist
+https://learn.microsoft.com/cpp/windows/choosing-a-deployment-method

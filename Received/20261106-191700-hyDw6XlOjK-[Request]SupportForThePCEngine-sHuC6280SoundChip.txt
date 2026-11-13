@@ -1,0 +1,7 @@
+20261106-191700-hyDw6XlOjK-[Request]SupportForThePCEngine-sHuC6280SoundChip
+【対象】tiramisu / SKILL_MID.md v0.18
+
+【要望】PCエンジンのHuC6280音源への対応
+SKILL_MID.mdに記載されたtiramisuの波形指定はsquare、triangle、sawで、HuC6280の波形メモリやノイズを指定する方法は記載されていません。PCエンジンらしい音色を作るには、現在は別の音源エミュレーターを使う必要があります。
+
+提案: 例えば `--chip huc6280` のようなモードを追加し、MIDIの各チャンネルを6つの単音チャンネルに対応付け、32サンプル・5bitの波形と、5・6番チャンネルのノイズ、音量エンベロープを指定できるようにしてください。ループ用の44.1kHz WAV/OGG出力と、使用方法のSKILL_MID.mdへの追記もあると便利です。
