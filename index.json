@@ -103,6 +103,14 @@
       "status": "Resolved",
       "title": "TinCLE0.18-32-bitWindowsDistributionSDL2_gfx.dll",
       "url": "Resolved/20261108-094500-kt1JTZgu1a-TinCLE0.18-32-bitWindowsDistributionSDL2_gfx.dll.txt"
+    },
+    {
+      "id": "zVC11kImOm",
+      "date": "20261112",
+      "time": "172200",
+      "status": "Resolved",
+      "title": "DirectSDL_RendererDrawingFromAStateDrawCallback",
+      "url": "Resolved/20261112-172200-zVC11kImOm-DirectSDL_RendererDrawingFromAStateDrawCallback.txt"
     }
   ]
 }
