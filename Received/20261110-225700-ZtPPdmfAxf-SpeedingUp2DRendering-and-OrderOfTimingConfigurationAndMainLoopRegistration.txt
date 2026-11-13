@@ -1,0 +1,4 @@
+20261110-225700-ZtPPdmfAxf-SpeedingUp2DRendering-and-OrderOfTimingConfigurationAndMainLoopRegistration
+2026-11-10 Fox Rally 4wd / TinCLE 0.18 調査メモ
+1. TINCLE_MODE_GLSL_HERO では tincle_get_renderer() の SDL_RendererInfo が software (flags=13) になりました。40台の既存 2.5D レース画面を同条件で描く簡易計測では、通常2Dモード約25〜34ms/フレームに対し、HEROモード約32〜46ms/フレームでした（5場面、描画と SDL_RenderPresent、同一PC上）。実際の総合FPSや環境差は未測定です。2D描画の高速化またはハードウェア対応を検討できると助かります。
+2. 既存Web版とHEROモードの試作版の両方で、初回起動時にブラウザコンソールへ「emscripten_set_main_loop_timing: Cannot set timing mode for main loop since a main loop does not exist! Call emscripten_set_main_loop first to set one up.」が表示されます。その後ゲーム画面は動作しています。タイミング設定とメインループ登録の順序を確認してください。

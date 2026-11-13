@@ -1,0 +1,14 @@
+20261110-1219-2NE6Sw9ijX-tinclec0.18WindowsTinyCC-and-wipee0.18StandardZIPmode
+Scope: tinclec 0.18, Windows / TinyCC.
+
+The bundled SDL2_gfx.dll also exports SDL_ functions. tinclec links SDL2.dll before SDL2_gfx.dll, and TinyCC can resolve the game's SDL_ imports to SDL2_gfx.dll instead of SDL2.dll. This can cause entry-point failures if an otherwise compatible SDL2_gfx runtime is used and can mix SDL implementations.
+
+Suggested fix: ensure SDL2.dll is passed after SDL2_gfx.dll, or restrict SDL2_gfx.dll exports to the gfx API. Add an import-table check to the compiler assistant.
+
+Scope: wipee 0.18, standard ZIP mode.
+
+Packing a 574379022-byte game.data returned SUCCESS, but an independent ZIP integrity test reported a data error for that entry. Other entries passed.
+
+Suggested fix: validate stored/deflated output and CRC for large or incompressible files before declaring success, and return a nonzero exit code on failure.
+
+Small 1 MiB and 16 MiB random-file ZIP checks passed; investigate file size, compression fallback, or content dependence.

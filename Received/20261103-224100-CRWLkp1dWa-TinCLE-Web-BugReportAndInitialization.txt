@@ -1,0 +1,8 @@
+20261103-224100-CRWLkp1dWa-TinCLE-Web-BugReportAndInitialization
+Scope: emcass Web template generation
+Observed: On Windows, a Japanese title is inserted into a UTF-8 template in the system ANSI encoding, producing invalid UTF-8 HTML.
+Proposed solution: Convert command-line title arguments to UTF-8 before replacing template placeholders.
+
+Scope: tincle_core Web main-loop initialization
+Observed: The browser logs an error because emscripten_set_main_loop_timing is called before the main loop exists.
+Proposed solution: Set the loop timing after registering the main loop.

@@ -9,12 +9,108 @@
       "url": "Received/20261031-191500-ro4kjmpe5S-WebTemplateUunifiedPointerInput.txt"
     },
     {
-      "id": "biZuJUZzo1",
+      "id": "gnKrETDyn3",
+      "date": "20261101",
+      "time": "113800",
+      "status": "Received",
+      "title": "ResearchNotesOnTheSaveAPI",
+      "url": "Received/20261101-113800-gnKrETDyn3-ResearchNotesOnTheSaveAPI.txt"
+    },
+    {
+      "id": "NoaR2So6vM",
+      "date": "20261101",
+      "time": "130100",
+      "status": "Received",
+      "title": "TinCLE-SDK0.17b8-32-bit-DetectionLogForRelatedTools",
+      "url": "Received/20261101-130100-NoaR2So6vM-TinCLE-SDK0.17b8-32-bit-DetectionLogForRelatedTools.txt"
+    },
+    {
+      "id": "CRWLkp1dWa",
+      "date": "20261103",
+      "time": "224100",
+      "status": "Received",
+      "title": "TinCLE-Web-BugReportAndInitialization",
+      "url": "Received/20261103-224100-CRWLkp1dWa-TinCLE-Web-BugReportAndInitialization.txt"
+    },
+    {
+      "id": "HtXRsYE6qo",
+      "date": "20261103",
+      "time": "224100",
+      "status": "Received",
+      "title": "TinCLE0.17b8-InvestigationNotesOnTheSaveAPI(November-1-2026)",
+      "url": "Received/20261103-224100-HtXRsYE6qo-TinCLE0.17b8-InvestigationNotesOnTheSaveAPI(November-1-2026).txt"
+    },
+    {
+      "id": "Q2ElvT2mG2",
+      "date": "20261106",
+      "time": "185700",
+      "status": "Received",
+      "title": "tiramisu-v0.18(32bit)",
+      "url": "Received/20261106-185700-Q2ElvT2mG2-tiramisu-v0.18(32bit).txt"
+    },
+    {
+      "id": "hyDw6XlOjK",
+      "date": "20261106",
+      "time": "191700",
+      "status": "Received",
+      "title": "[Request]SupportForThePCEngine-sHuC6280SoundChip",
+      "url": "Received/20261106-191700-hyDw6XlOjK-[Request]SupportForThePCEngine-sHuC6280SoundChip.txt"
+    },
+    {
+      "id": "kUfIv1DjBI",
+      "date": "20261108",
+      "time": "093800",
+      "status": "Received",
+      "title": "TinCLE3Daddon-32-bitWindowsSetup",
+      "url": "Received/20261108-093800-kUfIv1DjBI-TinCLE3Daddon-32-bitWindowsSetup.txt"
+    },
+    {
+      "id": "2NE6Sw9ijX",
+      "date": "20261110",
+      "time": "121900",
+      "status": "Received",
+      "title": "tinclec0.18WindowsTinyCC-and-wipee0.18StandardZIPmode",
+      "url": "Received/20261110-121900-2NE6Sw9ijX-tinclec0.18WindowsTinyCC-and-wipee0.18StandardZIPmode.txt"
+    },
+    {
+      "id": "LUMG7rFdUl",
+      "date": "20261110",
+      "time": "221700",
+      "status": "Received",
+      "title": "Bug-Report-of-SDL2_gfx.dll-and-wipee",
+      "url": "Received/20261110-221700-LUMG7rFdUl-Bug-Report-of-SDL2_gfx.dll-and-wipee.txt"
+    },
+    {
+      "id": "ZtPPdmfAxf",
+      "date": "20261110",
+      "time": "225700",
+      "status": "Received",
+      "title": "SpeedingUp2DRendering-and-OrderOfTimingConfigurationAndMainLoopRegistration",
+      "url": "Received/20261110-225700-ZtPPdmfAxf-SpeedingUp2DRendering-and-OrderOfTimingConfigurationAndMainLoopRegistration.txt"
+    },
+    {
+      "id": "DirectSDL_RendererDrawingFromAStNo Title",
+      "date": "20261112",
+      "time": "172200",
+      "status": "Received",
+      "title": "No Title",
+      "url": "Received/20261112-172200-DirectSDL_RendererDrawingFromAStateDrawCallback.txt"
+    },
+    {
+      "id": "B7vNdbjh7w",
+      "date": "20261112",
+      "time": "204800",
+      "status": "Received",
+      "title": "SDL2DCompositing-InitializingMainLoopWebVersion-MAIN_MODULE",
+      "url": "Received/20261112-204800-B7vNdbjh7w-SDL2DCompositing-InitializingMainLoopWebVersion-MAIN_MODULE.txt"
+    },
+    {
+      "id": "kt1JTZgu1a",
       "date": "20261108",
       "time": "094500",
       "status": "Resolved",
-      "title": "32-bitWindowsDistributionSDL2_gfx.dll",
-      "url": "Resolved/20261108-094500-biZuJUZzo1-32-bitWindowsDistributionSDL2_gfx.dll.txt"
+      "title": "TinCLE0.18-32-bitWindowsDistributionSDL2_gfx.dll",
+      "url": "Resolved/20261108-094500-kt1JTZgu1a-TinCLE0.18-32-bitWindowsDistributionSDL2_gfx.dll.txt"
     }
   ]
 }

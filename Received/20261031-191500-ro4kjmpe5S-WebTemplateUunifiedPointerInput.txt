@@ -1,5 +1,4 @@
 20261031-191500-ro4kjmpe5S-WebTemplateUunifiedPointerInput
-【TinCLE AI Feedback】
 Scope: TinCLE 0.17 web template / unified pointer input
 
 The generated fullscreen template stretches the canvas element to the full
